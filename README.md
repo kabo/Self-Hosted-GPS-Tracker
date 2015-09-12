@@ -25,3 +25,8 @@ Side-note: There are plenty of apps which do the same, for example Open GPS Trac
 * the most simple ever : just enter URL, enable 3G and GPS and go !
 
 And then, I wanted to do it just for fun. This is not a product, I don't sell it, there's no ad. It's only code sharing. Enjoy.
+
+## To Do
+ * Support for basic auth
+ * Add support for drivers (file-driver, MySQL-driver, SQLite-driver) in the PHP-scripts
+ * Allow multiple devices by letting user set the name of the device

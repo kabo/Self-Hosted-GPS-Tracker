@@ -20,9 +20,15 @@ class sqlite_storage extends abstract_storage {
                          "'.$this->f->escapeString($lon).'",
                          "'.$this->f->escapeString($device_id).'"
                        )');
-    var_dump($r);
   }
   public function stop() {
     $this->f->close();
+  }
+  public function get_last_pos($device_id) {
+    $r = $this->f->query('SELECT timestamp, lat, lon FROM positions
+                          WHERE device_id = "'.$this->f->escapeString($device_id).'"
+                          ORDER BY timestamp DESC
+                          LIMIT 1');
+    return $r->fetchArray(SQLITE3_NUM);
   }
 }

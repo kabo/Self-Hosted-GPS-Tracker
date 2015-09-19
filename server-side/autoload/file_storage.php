@@ -14,4 +14,11 @@ class file_storage extends abstract_storage {
   public function stop() {
     fclose($this->f);
   }
+  public function get_last_pos($device_id) {
+    $date_lat_lon = rtrim(fgets($this->f));
+    if (!$date_lat_lon) {
+    	throw new Exception("Unable to get latest position");
+    }
+    return explode("_", $date_lat_lon);
+  }
 }

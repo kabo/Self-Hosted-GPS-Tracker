@@ -15,11 +15,13 @@
 <body>
 
 <?php
+require_once 'autoloader.php';
 $date = $lat = $lon = '';
-$date_lat_lon = rtrim(file_get_contents("/tmp/gps-position.txt"));
-if ($date_lat_lon) {
-	list($date, $lat, $lon) = explode("_", $date_lat_lon);
-}
+$device_id = !empty($_GET['device_id']) ? $_GET['device_id'] : 'default' ;
+$storage = new sqlite_storage();
+$storage->start();
+list($date, $lat, $lon) = $storage->get_last_pos($device_id);
+$storage->stop();
 ?>
 
 <h1>I was here on <span id="date"><?php echo $date ? $date : "…" ?></span></h1>
@@ -54,8 +56,8 @@ function createGMap(lat, lon) {
 	};
 	gmap = new google.maps.Map(document.getElementById("googlemap"), myOptions);
 	gmarker = new google.maps.Marker({
-	      position: latlng, 
-	      map: gmap, 
+	      position: latlng,
+	      map: gmap,
 	      title:"I'm here"
 	});
 	google.maps.event.addListener(gmarker, "click", function(e) {
@@ -90,14 +92,14 @@ function updateOSMap(dte, lat, lon) {
 }
 
 function doRefresh() {
-	var xhr; 
+	var xhr;
 	try {
 		xhr = new XMLHttpRequest();
 	} catch (e) {
 		xhr = false;
 	}
 
-	xhr.onreadystatechange  = function() { 
+	xhr.onreadystatechange  = function() {
 		if (xhr.readyState  == 4) {
 			if (xhr.status  == 200) {
 				dte = xhr.responseText.split('_')[0];
@@ -119,12 +121,13 @@ function doRefresh() {
 			}
 		}
 	};
-	xhr.open("GET", "i-am-here-position.php?" + Math.random(),  true); 
+	xhr.open("GET", "i-am-here-position.php?device_id="+encodeURIComponent(device_id)+"&" + Math.random(),  true);
 	xhr.send(null);
 	setTimeout('doRefresh()', 30000);
 }
 
 <?php if ($lat && $lon): ?>
+var device_id = "<?php echo $device_id; ?>";
 createGMap(<?php echo $lat.",".$lon ?>);
 createOSMap(<?php echo $lat.",".$lon ?>);
 <?php endif; ?>
@@ -132,4 +135,5 @@ createOSMap(<?php echo $lat.",".$lon ?>);
 doRefresh();
 
 </script>
-
+</body>
+</html>

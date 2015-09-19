@@ -6,7 +6,7 @@ $storage = new sqlite_storage();
 
 if (isset($_GET["lat"]) && preg_match("/^-?\d+\.\d+$/", $_GET["lat"])
     && isset($_GET["lon"]) && preg_match("/^-?\d+\.\d+$/", $_GET["lon"]) ) {
-  $device_id = isset($_GET["device_id"]) ? $_GET["device_id"] : "default" ;
+  $device_id = !empty($_GET["device_id"]) ? $_GET["device_id"] : "default" ;
   $storage->start();
   $storage->save_pos($_GET["lat"], $_GET["lon"], $device_id);
 	$storage->stop();

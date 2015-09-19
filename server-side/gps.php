@@ -6,10 +6,14 @@ $storage = new sqlite_storage();
 
 if (isset($_GET["lat"]) && preg_match("/^-?\d+\.\d+$/", $_GET["lat"])
     && isset($_GET["lon"]) && preg_match("/^-?\d+\.\d+$/", $_GET["lon"]) ) {
-  $device_id = !empty($_GET["device_id"]) ? $_GET["device_id"] : "default" ;
-  $storage->start();
-  $storage->save_pos($_GET["lat"], $_GET["lon"], $device_id);
-	$storage->stop();
+    $t = null;
+    if (isset($_GET["t"]) && preg_match("/^\d+$/", $_GET["t"])) {
+        $t = $_GET["t"];
+    }
+    $device_id = !empty($_GET["device_id"]) ? $_GET["device_id"] : "default" ;
+    $storage->start();
+    $storage->save_pos($_GET["lat"], $_GET["lon"], $t, $device_id);
+	  $storage->stop();
     echo "OK";
 } elseif (isset($_GET["tracker"])) {
     // do whatever you want here...

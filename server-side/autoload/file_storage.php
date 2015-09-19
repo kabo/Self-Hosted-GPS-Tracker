@@ -8,8 +8,8 @@ class file_storage extends abstract_storage {
   public function start() {
     $this->f = fopen($this->opts['path'],"w");
   }
-  public function save_pos($lat, $lon, $device_id) {
-    fwrite($this->f, date("Y-m-d H:i:s")."_".$lat."_".$lon."_".$device_id);
+  public function save_pos($lat, $lon, $t, $device_id) {
+    fwrite($this->f, date("Y-m-d H:i:s")."_".$lat."_".$lon."_".$t."_".$device_id);
   }
   public function stop() {
     fclose($this->f);

@@ -3,7 +3,7 @@
 class sqlite_storage extends abstract_storage {
   protected $f;
   protected $opts = array(
-    'path'  => 'gps-position.sqlite'
+    'path'  => 'sqlite/gps-position.sqlite'
   );
   public function start() {
     $this->f = new SQLite3($this->opts['path']);

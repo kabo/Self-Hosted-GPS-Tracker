@@ -23,4 +23,5 @@ local.properties
 # this is unrelated to the project
 /libs/android-support-v4.jar
 
-server-side/gps-position.sqlite
+server-side/sqlite/gps-position.sqlite
+server-side/.htpasswd
